@@ -64,7 +64,7 @@ def autoNorm(dataSet):
    
 def datingClassTest():
     hoRatio = 0.50      #hold out 10%
-    datingDataMat,datingLabels = file2matrix('datingTestSet2.txt')       #load data setfrom file
+    datingDataMat,datingLabels = file2matrix('data/datingTestSet2.txt')       #load data setfrom file
     normMat, ranges, minVals = autoNorm(datingDataMat)
     m = normMat.shape[0]
     numTestVecs = int(m*hoRatio)
