@@ -112,4 +112,35 @@ def multiTest():
     for k in range(numTests):
         errorSum += colicTest()
     print "after %d iterations the average error rate is: %f" % (numTests, errorSum/float(numTests))
+    
+def spectfTest():
+    frTrain = open('data/SPECTF_train.txt'); frTest = open('data/SPECTF_test.txt')
+    trainingSet = []; trainingLabels = []
+    for line in frTrain.readlines():
+        currLine = line.strip().split('\t')
+        lineArr =[]
+        for i in range(44):
+            lineArr.append(float(currLine[i+1]))
+        trainingSet.append(lineArr)      
+        trainingLabels.append(float(currLine[0]))
+    trainWeights = stocGradAscent1(array(trainingSet), trainingLabels, 1000)
+
+    errorCount = 0; numTestVec = 0.0
+    for line in frTest.readlines():
+        numTestVec += 1.0
+        currLine = line.strip().split('\t')
+        lineArr =[]
+        for i in range(44):
+            lineArr.append(float(currLine[i+1]))
+        if int(classifyVector(array(lineArr), trainWeights))!= int(currLine[0]):
+            errorCount += 1
+    errorRate = (float(errorCount)/numTestVec)
+    print "the error rate of this test is: %f" % errorRate
+    return errorRate
+
+def multiTestForSpectf():
+    numTests = 10; errorSum=0.0
+    for k in range(numTests):
+        errorSum += spectfTest()
+    print "after %d iterations the average error rate is: %f" % (numTests, errorSum/float(numTests))
         
