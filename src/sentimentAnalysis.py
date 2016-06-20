@@ -113,6 +113,15 @@ def testData():
     accuracy = (testCount - errorCount)/testCount * 100
     print 'Accuracy = ', accuracy, '% (', testCount-int(errorCount), '/', testCount, ') (classification)'
     
+def svmTraining(classLabel, data):
+    prob = svm_problem(classLabel,data)    # Construct an svm_problem instance
+    # set libsvm parameter options
+    param = svm_parameter()
+    param.kernel_type = 0    # linear: u'*v
+    param.C = 10 
+    m = svm_train(prob, param)
+    return param, m
+    
 def testDataForSVM():
     testList = []; testClass = []; testCount = 0
     with open('data/metro/MetroTestSet.txt') as mTest:
